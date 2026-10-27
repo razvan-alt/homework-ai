@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101323">
+<meta name="description" content="Asistent AI pentru teme care poate citi exercitii din fotografii.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<title>Homework AI — Demo</title>
+<style>
+:root{--bg:#0c1020;--panel:#171c31;--panel2:#202741;--text:#f4f6ff;--muted:#a9b2ce;--accent:#8b7cff;--accent2:#5de0c1;--border:#303957}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0%,#26224f 0,#0c1020 42%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:0}
+.wrap{max-width:760px;margin:auto;padding:22px 16px 40px}.brand{display:flex;align-items:center;gap:12px;margin:8px 0 26px}.logo{height:48px;width:48px;border-radius:16px;display:grid;place-items:center;font-size:25px;background:linear-gradient(135deg,var(--accent),#4bcece);box-shadow:0 8px 30px #6f63d833}.brand h1{font-size:20px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}.pill{margin-left:auto;border:1px solid #555080;color:#c9c2ff;background:#252044;border-radius:99px;padding:6px 10px;font-size:11px;font-weight:800;letter-spacing:.08em}
+.card{background:#151a2ceF;border:1px solid var(--border);border-radius:24px;padding:22px;box-shadow:0 20px 60px #0003}.hero h2{font-size:30px;line-height:1.08;margin:0 0 10px;letter-spacing:-.04em}.hero p{color:var(--muted);line-height:1.55;margin:0 0 20px}.field{display:block;margin:14px 0}.field span{display:block;font-size:13px;color:#d4daf0;margin-bottom:7px}.field input,.field textarea,.field select{width:100%;border:1px solid #394260;background:#0f1426;color:var(--text);padding:13px 14px;border-radius:13px;outline:none}.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent)}.primary{width:100%;padding:14px 16px;border-radius:14px;color:#101323;font-weight:800;background:linear-gradient(100deg,#a59aff,#67e2ce);box-shadow:0 8px 25px #6d65d833}.hint{font-size:12px;color:var(--muted);line-height:1.5;margin:13px 0 0}.error{font-size:13px;color:#ff9fbd;margin-top:10px;min-height:18px}.hidden{display:none!important}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}.welcome{font-size:23px;margin:0}.sub{font-size:13px;color:var(--muted);margin-top:5px}.ghost{border:1px solid var(--border);background:transparent;color:var(--text);padding:9px 12px;border-radius:12px}.tabs{display:flex;gap:8px;margin:18px 0;overflow:auto}.tab{flex:1;white-space:nowrap;padding:11px;border:1px solid var(--border);border-radius:12px;background:#14192b;color:var(--muted);font-weight:700}.tab.active{color:white;background:#302b57;border-color:#655bb4}.section-title{font-size:16px;margin:0 0 5px}.section-desc{font-size:13px;color:var(--muted);margin:0 0 16px;line-height:1.5}.chatbox{height:240px;overflow:auto;border:1px solid var(--border);border-radius:16px;background:#0e1324;padding:13px;margin-bottom:12px}.bubble{padding:11px 13px;border-radius:14px;max-width:90%;font-size:14px;line-height:1.5;margin:8px 0;white-space:pre-wrap}.bot{background:#242b45;border:1px solid #353e60}.user{background:#514a8b;margin-left:auto}.chatrow{display:flex;gap:8px}.chatrow input{flex:1;min-width:0;background:#0f1426;border:1px solid #394260;border-radius:13px;padding:12px;color:white}.chatrow button{background:var(--accent);color:white;border-radius:13px;padding:0 16px;font-weight:800}.photo-preview{max-width:100%;max-height:220px;display:block;border-radius:12px;margin:8px 0;border:1px solid var(--border)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:17px}.stat{background:#101528;border:1px solid var(--border);border-radius:15px;padding:13px}.stat strong{display:block;font-size:17px}.stat small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.footer{text-align:center;color:#737e9e;font-size:11px;margin:18px 0 0}.notice{border:1px solid #6b5b35;background:#2a2418;color:#e8d5a3;padding:11px 13px;border-radius:13px;font-size:12px;line-height:1.5;margin-top:14px}
+@media(min-width:600px){.wrap{padding-top:36px}.card{padding:28px}.hero h2{font-size:36px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="brand">
+    <div class="logo">📚</div><div><h1>Homework AI</h1><p>Învață mai smart.</p></div><span class="pill">FREE</span>
+  </header>
+
+  <main id="login" class="card hidden">
+    <div class="hero">
+      <h2>Temele tale.<br><span style="color:#a99fff">Mai ușor.</span></h2>
+      <p>Intră în spațiul tău de învățare și personalizează felul în care te ajută AI-ul.</p>
+    </div>
+    <label class="field"><span>Username</span><input id="username" placeholder="Cum te cheamă în aplicație?" maxlength="24" autocomplete="username"></label>
+    <label class="field"><span>Parolă</span><input id="password" placeholder="Introdu parola" type="password" inputmode="numeric" autocomplete="current-password"></label>
+    <button class="primary" id="loginBtn">LOG IN →</button>
+    <div id="loginError" class="error"></div>
+    <p class="hint">Autentificarea nu este necesară.</p>
+    <div class="notice">Poți întreba despre orice materie. Întrebările sunt trimise către un serviciu AI extern; disponibilitatea și limitele gratuite pot varia. Nu trimite parole sau date personale.</div>
+  </main>
+
+  <main id="app">
+    <div class="topline"><div><h2 class="welcome">Salut, <span id="shownName">student</span> 👋</h2><div class="sub">Ce învățăm azi?</div></div><button class="ghost" id="installBtn" style="display:none">Instalează aplicația</button><button class="ghost" id="logout">Ieșire ↗</button></div>
+    <div class="card">
+      <div class="tabs"><button class="tab active" data-tab="chat">💬 Homework AI</button><button class="tab" data-tab="custom">⚙️ Customize AI</button></div>
+      <section id="chatPanel">
+        <h3 class="section-title">Hai să rezolvăm ceva.</h3><p class="section-desc">Întreabă despre matematică, română, istorie, biologie, fizică, limbi străine, informatică și multe altele.</p>
+        <div class="chatbox" id="chatbox"><div class="bubble bot">Salut! Sunt Homework AI 📚<br>Trimite-mi un exercițiu și te ajut să-l înțelegi.</div></div>
+        <div class="chatrow"><input id="question" placeholder="Scrie orice exercițiu sau întrebare…"><button id="cameraBtn" type="button" aria-label="Fă o poză" title="Fă o poză" style="background:#302b57;border:1px solid #655bb4;color:white;border-radius:13px;padding:0 14px;font-size:20px">📷</button><button id="send">Trimite</button></div><input id="photoInput" type="file" accept="image/*" capture="environment" class="hidden">
+        <div style="display:flex;gap:8px;margin-top:9px"><button class="ghost" id="voiceDemo" style="flex:1">🎙️ Vorbește cu AI-ul</button><button class="ghost" id="stopVoice" style="flex:1">■ Oprește vocea</button></div>
+        <p class="hint" id="voiceStatus">Apasă microfonul, spune ceva și demo-ul va rosti un răspuns demonstrativ.</p>
+        <div class="stats"><div class="stat"><strong>4 limbi</strong><small>RO · EN · DE · FR</small></div><div class="stat"><strong>Pas cu pas</strong><small>Explicații clare</small></div><div class="stat"><strong>Personal</strong><small>Stilul tău</small></div></div>
+      </section>
+      <section id="customPanel" class="hidden">
+        <h3 class="section-title">Fă AI-ul să ți se potrivească.</h3><p class="section-desc">Setările de mai jos sunt doar pentru previzualizarea din acest browser.</p>
+        <label class="field"><span>Limba răspunsurilor</span><select id="lang"><option>Română</option><option>English</option><option>Deutsch</option><option>Français</option></select></label>
+        <label class="field"><span>Stilul de vorbire</span><select id="style"><option>Prietenos și relaxat</option><option>Formal și serios</option><option>Gen Z, informal</option><option>Calm și încurajator</option></select></label>
+        <label class="field"><span>Cum să explice?</span><select id="detail"><option>Pas cu pas</option><option>Pe scurt</option><option>Foarte detaliat</option><option>Mai întâi indicii, apoi soluția</option></select></label>
+        <label class="field"><span>Instrucțiuni personale</span><textarea id="instructions" rows="3" placeholder="Ex.: Explică simplu și dă exemple ușoare."></textarea></label>
+        <button class="primary" id="save">Salvează preferințele</button><p class="hint" id="savedMsg"></p>
+      </section>
+    </div>
+    <p class="footer">Homework AI • Previzualizare interactivă</p>
+  </main>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let installPrompt=null;
+window.addEventListener('beforeinstallprompt', e=>{e.preventDefault();installPrompt=e;$('installBtn').style.display='block';});
+$('installBtn').addEventListener('click',async()=>{if(!installPrompt){$('installBtn').textContent='Deschide meniul browserului și alege Instalează';return;}installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('installBtn').style.display='none';});
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+$('loginBtn').addEventListener('click',()=>{
+  const name=$('username').value.trim()||'Student';
+  $('loginError').textContent='';$('shownName').textContent=name;
+  $('login').classList.add('hidden');$('app').classList.remove('hidden');
+});
+$('password').addEventListener('keydown',e=>{if(e.key==='Enter')$('loginBtn').click()});
+$('logout').addEventListener('click',()=>{$('app').classList.add('hidden');$('login').classList.remove('hidden');$('password').value='';});
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{
+ document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b===btn));
+ $('chatPanel').classList.toggle('hidden',btn.dataset.tab!=='chat');
+ $('customPanel').classList.toggle('hidden',btn.dataset.tab!=='custom');
+}));
+let voiceMode=false, recognition=null;
+function addBubble(text,cls){const b=document.createElement('div');b.className='bubble '+cls;b.textContent=text;$('chatbox').appendChild(b);$('chatbox').scrollTop=$('chatbox').scrollHeight;}
+function speakDemo(text){if(!('speechSynthesis' in window)){$('voiceStatus').textContent='Citirea vocală nu este disponibilă în browserul acesta.';return;}window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='ro-RO';u.onend=()=>{if(voiceMode)startDemoListening()};window.speechSynthesis.speak(u)}
+function startDemoListening(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!voiceMode||!SR)return;recognition=new SR();recognition.lang='ro-RO';recognition.interimResults=false;recognition.onresult=e=>{const q=e.results[0][0].transcript;addBubble(q,'user');const answer='Am auzit întrebarea ta: '+q+'. În versiunea reală, AI-ul ar formula aici un răspuns complet. Acesta este doar demo-ul vizual.';addBubble(answer,'bot');$('voiceStatus').textContent='Răspuns demonstrativ rostit cu voce.';speakDemo(answer)};recognition.onerror=()=>{$('voiceStatus').textContent='Microfonul nu a funcționat. Verifică permisiunea browserului.';voiceMode=false};recognition.onend=()=>{recognition=null};try{recognition.start();$('voiceStatus').textContent='Te ascult… vorbește acum.'}catch(e){$('voiceStatus').textContent='Nu am putut porni microfonul.'}}
+$('voiceDemo').addEventListener('click',()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){$('voiceStatus').textContent='Recunoașterea vocală nu e disponibilă. Încearcă Chrome pe Android.';return;}voiceMode=true;startDemoListening()});
+$('stopVoice').addEventListener('click',()=>{voiceMode=false;if(recognition){recognition.onend=null;recognition.stop();recognition=null}if('speechSynthesis'in window)window.speechSynthesis.cancel();$('voiceStatus').textContent='Modul vocal oprit.'});
+async function askHomeworkAI(question) {
+  const language = $('lang').value;
+  const style = $('style').value;
+  const detail = $('detail').value;
+  const extra = $('instructions').value.trim();
+  const prompt =
+    'You are a helpful school tutor for a student. Answer questions from any school subject. ' +
+    'Explain accurately in ' + language + '. Style: ' + style + '. Detail preference: ' + detail + '. ' +
+    'For exercises, show the solution step by step and check the final answer. If information is uncertain, say so. ' +
+    (extra ? 'Extra student preferences: ' + extra + '. ' : '') +
+    'Student question: ' + question;
+
+  const url = 'https://text.pollinations.ai/' + encodeURIComponent(prompt);
+  const response = await fetch(url, { method: 'GET' });
+  if (!response.ok) throw new Error('AI service unavailable');
+  const answer = (await response.text()).trim();
+  if (!answer) throw new Error('Empty answer');
+  return answer;
+}
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Could not read the image'));
+    reader.readAsDataURL(file);
+  });
+}
+$('send').addEventListener('click', async ()=>{
+  const q=$('question').value.trim(); if(!q && !selectedPhotoData)return;
+  if(q) addBubble(q,'user');
+  $('question').value='';
+  const waiting = document.createElement('div');
+  waiting.className='bubble bot';
+  waiting.textContent=selectedPhotoData ? 'Citesc fotografia și rezolv exercițiul…' : 'AI-ul se gândește…';
+  $('chatbox').appendChild(waiting);
+  $('chatbox').scrollTop=$('chatbox').scrollHeight;
+  $('send').disabled=true;
+  try {
+    let answer;
+    if (selectedPhotoData) {
+      const imageDataUrl = await fileToDataURL(selectedPhotoData);
+      const response = await fetch('/api/solve-image', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          image: imageDataUrl,
+          question: q || 'Read the exercise in this image and solve it step by step.',
+          language: $('lang').value,
+          style: $('style').value,
+          detail: $('detail').value,
+          instructions: $('instructions').value.trim()
+        })
+      });
+      const data = await response.json().catch(()=>({}));
+      if (!response.ok) throw new Error(data.error || 'Image AI request failed');
+      answer = data.answer;
+      selectedPhotoData = null;
+      $('photoInput').value = '';
+    } else {
+      answer = await askHomeworkAI(q);
+    }
+    waiting.textContent=answer;
+    if(voiceMode) speakDemo(answer);
+  } catch (e) {
+    waiting.textContent='Nu am putut rezolva exercițiul. ' + (e.message || 'Verifică serverul și cheia API, apoi încearcă din nou.');
+  } finally {
+    $('send').disabled=false;
+    $('chatbox').scrollTop=$('chatbox').scrollHeight;
+  }
+});
+let selectedPhotoData = null;
+$('cameraBtn').addEventListener('click', () => $('photoInput').click());
+$('photoInput').addEventListener('change', async () => {
+  const file = $('photoInput').files && $('photoInput').files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) {
+    addBubble('Alege un fișier imagine.', 'bot');
+    return;
+  }
+  selectedPhotoData = file;
+  addBubble('📷 Poză adăugată: ' + file.name + '. AI-ul poate citi exercițiul din poză. Opțional, scrie o întrebare și apasă Trimite.', 'bot');
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = document.createElement('img');
+    img.src = reader.result;
+    img.alt = 'Previzualizare fotografie';
+    img.className = 'photo-preview';
+    $('chatbox').appendChild(img);
+    $('chatbox').scrollTop = $('chatbox').scrollHeight;
+  };
+  reader.readAsDataURL(file);
+});
+$('question').addEventListener('keydown',e=>{if(e.key==='Enter')$('send').click()});
+$('save').addEventListener('click',()=>{$('savedMsg').textContent='Preferințele au fost aplicate acestei previzualizări!';});
+</script>
+</body>
+</html>
